@@ -1,6 +1,5 @@
 (function main() {
     const apiResult = document.getElementById("jsApiResult");
-
     /**
      *
      * @param endpoint {string}
@@ -25,31 +24,42 @@
         }
     }
 
-    (function initAddition() {
-        const additionA = document.getElementById("jsAddA");
-        const additionB = document.getElementById("jsAddB");
-        const additionResult = document.getElementById("jsAddResult");
-        const buttonSubmitAddition = document.getElementById("jsSubmitAddition");
+    function registerCalculatorOperation(settings) {
+        const htmlValueA = document.getElementById(settings.htmlValueA);
+        const htmlValueB = document.getElementById(settings.htmlValueB);
+        const htmlResult = document.getElementById(settings.htmlResult);
+        const htmlSubmit = document.getElementById(settings.htmlSubmit);
 
-        if (!additionA || !additionB || !additionResult || !buttonSubmitAddition) {
-            const errorMessage = "Could not initialize Calculator Addition!";
+        if (!htmlValueA || !htmlValueB || !htmlResult || !htmlSubmit) {
+            const errorMessage = `"Could not initialize Calculator ${settings.name}!"`;
             console.error(errorMessage);
             alert(errorMessage);
         }
 
-        buttonSubmitAddition.addEventListener("click", async _ => {
+        htmlSubmit.addEventListener("click", async _ => {
             const payload = {
-                valueA: additionA.value,
-                valueB: additionB.value,
+                valueA: htmlValueA.value,
+                valueB: htmlValueB.value,
             }
 
-            let result = await send("add", payload);
+            let result = await send(settings.endpoint, payload);
             if (!result) {
                 result = "ERROR";
             }
-            additionResult.textContent = result;
+            htmlResult.textContent = result;
         });
 
+    }
+
+    (function initAddition() {
+        registerCalculatorOperation({
+            name: "Addition",
+            htmlValueA: "jsAddA",
+            htmlValueB: "jsAddB",
+            htmlResult: "jsAddResult",
+            htmlSubmit: "jsSubmitAddition",
+            endpoint: "add",
+        });
     }());
 
     (function initSubtraction() {
