@@ -4,6 +4,7 @@ import com.koubae.calculator.app.services.ServiceCalculator;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
 @RequestMapping("/api/v1")
 public class Calculator {

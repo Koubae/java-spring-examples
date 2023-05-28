@@ -6,13 +6,64 @@
 <main>
     <div>
         <section>
+            <h1>Calculator</h1>
+        </section>
+
+        <section>
             <article>
-                <h1>Hello World 3</h1>
+                <fieldset>
+                    <legend><h3>Addition</h3></legend>
+                    <input type="number" name="addition-addendA" id="jsAddA" min="0">
+                    <small>+</small>
+                    <input type="number" name="addition-addendB" id="jsAddB" min="0">
+                    <small>=</small>
+                    <small id="jsAddResult"></small>
+
+                </fieldset>
             </article>
+
+            <article>
+                <fieldset>
+                    <legend><h3>Subtraction</h3></legend>
+
+                    <input type="number" name="addition-minuend" id="jsSubtractionA" min="0">
+                    <small>-</small>
+                    <input type="number" name="addition-subtrahend" id="jsSubtractionB" min="0">
+                    <small>=</small>
+                    <small id="jsSubtractionResult"></small>
+
+                </fieldset>
+            </article>
+
+            <article>
+                <fieldset>
+                    <legend><h3>Multiplication</h3></legend>
+
+                    <input type="number" name="addition-multiplier" id="jsMultiplierA" min="0">
+                    <small>x</small>
+                    <input type="number" name="addition-multiplicand" id="jsMultiplierB" min="0">
+                    <small>=</small>
+                    <small id="jsMultiplierResult"></small>
+                </fieldset>
+            </article>
+
+            <article>
+                <fieldset>
+                    <legend><h3>Division</h3></legend>
+
+                    <input type="number" name="addition-dividend" id="jsDivisionA" min="0">
+                    <small>/</small>
+                    <input type="number" name="addition-divisor" id="jsDivisionB" min="0">
+                    <small>=</small>
+                    <small id="jsDivisionResult"></small>
+                </fieldset>
+            </article>
+
         </section>
     </div>
 </main>
 
-
 </body>
+<script th:src="@{/js/main.js}"></script>
+
 </html>
