@@ -13,6 +13,8 @@
             <article>
                 <fieldset>
                     <legend><h3>Addition</h3></legend>
+
+                    <button type="button" id="jsSubmitAddition">Send</button>
                     <input type="number" name="addition-addendA" id="jsAddA" min="0">
                     <small>+</small>
                     <input type="number" name="addition-addendB" id="jsAddB" min="0">
@@ -26,9 +28,10 @@
                 <fieldset>
                     <legend><h3>Subtraction</h3></legend>
 
-                    <input type="number" name="addition-minuend" id="jsSubtractionA" min="0">
+                    <button type="button" id="jsSubmitSubtraction">Send</button>
+                    <input type="number" name="subtraction-minuend" id="jsSubtractionA" min="0">
                     <small>-</small>
-                    <input type="number" name="addition-subtrahend" id="jsSubtractionB" min="0">
+                    <input type="number" name="subtraction-subtrahend" id="jsSubtractionB" min="0">
                     <small>=</small>
                     <small id="jsSubtractionResult"></small>
 
@@ -39,11 +42,13 @@
                 <fieldset>
                     <legend><h3>Multiplication</h3></legend>
 
-                    <input type="number" name="addition-multiplier" id="jsMultiplierA" min="0">
+                    <button type="button" id="jsSubmitMultiplication">Send</button>
+                    <input type="number" name="multiplication-multiplier" id="jsMultiplierA" min="0">
                     <small>x</small>
-                    <input type="number" name="addition-multiplicand" id="jsMultiplierB" min="0">
+                    <input type="number" name="multiplication-multiplicand" id="jsMultiplierB" min="0">
                     <small>=</small>
                     <small id="jsMultiplierResult"></small>
+
                 </fieldset>
             </article>
 
@@ -51,15 +56,27 @@
                 <fieldset>
                     <legend><h3>Division</h3></legend>
 
-                    <input type="number" name="addition-dividend" id="jsDivisionA" min="0">
+                    <button type="button" id="jsSubmitDivision">Send</button>
+                    <input type="number" name="division-dividend" id="jsDivisionA" min="0">
                     <small>/</small>
-                    <input type="number" name="addition-divisor" id="jsDivisionB" min="0">
+                    <input type="number" name="division-divisor" id="jsDivisionB" min="0">
                     <small>=</small>
                     <small id="jsDivisionResult"></small>
                 </fieldset>
             </article>
 
         </section>
+
+        <section>
+            <h1>Api Result</h1>
+        </section>
+
+        <section>
+            <article>
+                <pre><code id="jsApiResult"></code></pre>
+            </article>
+        </section>
+
     </div>
 </main>
 
