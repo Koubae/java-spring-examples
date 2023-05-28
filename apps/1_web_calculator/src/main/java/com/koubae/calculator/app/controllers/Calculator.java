@@ -17,18 +17,18 @@ public class Calculator {
     @PostMapping(value = "/add", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseAdd add(
-            @RequestParam int addendA,
-            @RequestParam int addendB
+            @RequestParam int valueA,
+            @RequestParam int valueB
     ) {
-        int result = calculator.add(addendA, addendB);
+        int result = calculator.add(valueA, valueB);
         char operation = '+';
-        String resultDescription = String.format("%d %s %d = %d", addendA, operation, addendB, result);
+        String resultDescription = String.format("%d %s %d = %d", valueA, operation, valueB, result);
 
         return new ResponseAdd(
                 result,
                 resultDescription,
-                addendA,
-                addendB,
+                valueA,
+                valueB,
                 operation
         );
     }
