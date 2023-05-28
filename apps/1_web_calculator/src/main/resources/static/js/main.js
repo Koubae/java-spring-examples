@@ -15,7 +15,7 @@
             });
             const response = await responseFetched.json();
             apiResult.textContent = JSON.stringify(response);
-            return response["result"];
+            return response;
 
         } catch (error) {
             console.error(error);
@@ -46,10 +46,20 @@
                 valueB: htmlValueB.value,
             }
 
-            let result = await send(settings.endpoint, payload);
-            if (!result) {
-                result = "ERROR";
+            let response = await send(settings.endpoint, payload);
+
+            let result;
+            if (!response) {
+                result = "ERROR - Empty Response";
+            } else if (response.error) {
+                console.error(response.error);
+                result = response.error;
+            } else if (response.result !== 0 && !response.result) {
+                result = "ERROR - No results";
+            } else {
+                result = response.result;
             }
+
             htmlResult.textContent = result;
         });
     }
