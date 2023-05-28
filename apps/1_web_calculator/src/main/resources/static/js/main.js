@@ -21,27 +21,41 @@
 
     const apiResult = document.getElementById("jsApiResult");
 
-    buttonSubmitAddition.addEventListener("click", async e => {
-        const a = additionA.value;
-        const b = additionB.value;
+    /**
+     *
+     * @param endpoint {string}
+     * @param payload {object}
+     * @returns {Promise<string|*>}
+     */
+    async function send(endpoint, payload) {
+        const url = `http://localhost:8080/api/v1/${endpoint}?` + new URLSearchParams(payload);
 
-        const url = "http://localhost:8080/api/v1/add?" + new URLSearchParams({
-            addendA: a,
-            addendB: b,
-        });
+        try {
+            const responseFetched = await fetch(url, {
+                method: "POST",
+            });
+            const response = await responseFetched.json();
+            apiResult.textContent = JSON.stringify(response);
+            return response["result"];
 
-       try {
-           const responseFetched = await fetch(url, {
-               method: "POST",
-           });
-           const response = await responseFetched.json();
-           additionResult.textContent = response["result"];
-           apiResult.textContent = JSON.stringify(response);
+        } catch (error) {
+            console.error(error);
+            apiResult.textContent = error;
+            return "";
+        }
+    }
 
-       } catch (error) {
-           console.error(error);
-           apiResult.textContent = error;
-       }
+    buttonSubmitAddition.addEventListener("click", async _ => {
+        const payload = {
+            addendA: additionA.value,
+            addendB: additionB.value,
+        }
+
+        let result = await send("add", payload);
+        if (!result) {
+            result = "ERROR";
+        }
+        additionResult.textContent = result;
 
     });
 
