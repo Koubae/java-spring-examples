@@ -24,6 +24,10 @@
         }
     }
 
+    /**
+     * Registers a html block into a Calculator operation
+     * @param settings {object}
+     */
     function registerCalculatorOperation(settings) {
         const htmlValueA = document.getElementById(settings.htmlValueA);
         const htmlValueB = document.getElementById(settings.htmlValueB);
@@ -48,7 +52,6 @@
             }
             htmlResult.textContent = result;
         });
-
     }
 
     (function initAddition() {
@@ -63,85 +66,36 @@
     }());
 
     (function initSubtraction() {
-        const subtractionA = document.getElementById("jsSubtractionA");
-        const subtractionB = document.getElementById("jsSubtractionB");
-        const subtractionResult = document.getElementById("jsSubtractionResult");
-        const buttonSubmitSubtraction = document.getElementById("jsSubmitSubtraction");
-
-        if (!subtractionA || !subtractionB || !subtractionResult || !buttonSubmitSubtraction) {
-            const errorMessage = "Could not initialize Calculator Subtraction!";
-            console.error(errorMessage);
-            alert(errorMessage);
-        }
-
-        buttonSubmitSubtraction.addEventListener("click", async _ => {
-            const payload = {
-                valueA: subtractionA.value,
-                valueB: subtractionB.value,
-            }
-
-            let result = await send("subtract", payload);
-            if (!result) {
-                result = "ERROR";
-            }
-            subtractionResult.textContent = result;
+        registerCalculatorOperation({
+            name: "Subtraction",
+            htmlValueA: "jsSubtractionA",
+            htmlValueB: "jsSubtractionB",
+            htmlResult: "jsSubtractionResult",
+            htmlSubmit: "jsSubmitSubtraction",
+            endpoint: "subtract",
         });
-
     }());
 
     (function initMultiplication() {
-        const multiplicationA = document.getElementById("jsMultiplierA");
-        const multiplicationB = document.getElementById("jsMultiplierB");
-        const multiplicationResult = document.getElementById("jsMultiplierResult");
-        const buttonSubmitMultiplication = document.getElementById("jsSubmitMultiplication");
-
-        if (!multiplicationA || !multiplicationB || !multiplicationResult || !buttonSubmitMultiplication) {
-            const errorMessage = "Could not initialize Calculator Multiplication!";
-            console.error(errorMessage);
-            alert(errorMessage);
-        }
-
-        buttonSubmitMultiplication.addEventListener("click", async _ => {
-            const payload = {
-                valueA: multiplicationA.value,
-                valueB: multiplicationB.value,
-            }
-
-            let result = await send("multiply", payload);
-            if (!result) {
-                result = "ERROR";
-            }
-            multiplicationResult.textContent = result;
+        registerCalculatorOperation({
+            name: "Multiplication",
+            htmlValueA: "jsMultiplierA",
+            htmlValueB: "jsMultiplierB",
+            htmlResult: "jsMultiplierResult",
+            htmlSubmit: "jsSubmitMultiplication",
+            endpoint: "multiply",
         });
-
     }());
 
     (function initDivision() {
-        const divisionA = document.getElementById("jsDivisionA");
-        const divisionB = document.getElementById("jsDivisionB");
-        const divisionResult = document.getElementById("jsDivisionResult");
-        const buttonSubmitDivision = document.getElementById("jsSubmitDivision");
-
-        if (!divisionA || !divisionB || !divisionResult || !buttonSubmitDivision) {
-            const errorMessage = "Could not initialize Calculator Division!";
-            console.error(errorMessage);
-            alert(errorMessage);
-        }
-
-        buttonSubmitDivision.addEventListener("click", async _ => {
-            const payload = {
-                valueA: divisionA.value,
-                valueB: divisionB.value,
-            }
-
-            let result = await send("divide", payload);
-            if (!result) {
-                result = "ERROR";
-            }
-            divisionResult.textContent = result;
+        registerCalculatorOperation({
+            name: "Division",
+            htmlValueA: "jsDivisionA",
+            htmlValueB: "jsDivisionB",
+            htmlResult: "jsDivisionResult",
+            htmlSubmit: "jsSubmitDivision",
+            endpoint: "divide",
         });
-
     }());
-
 
 }());
