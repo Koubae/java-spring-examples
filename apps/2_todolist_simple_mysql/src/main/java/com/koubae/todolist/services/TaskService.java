@@ -2,6 +2,9 @@ package com.koubae.todolist.services;
 
 import com.koubae.todolist.entity.Task;
 import com.koubae.todolist.repository.TaskRepository;
+import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -19,8 +22,24 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
-    public Task create(Task task) {
-        return taskRepository.save(task);
+    public Task create(Task task) throws ServiceException {
+        try {
+            return taskRepository.save(task);
+        } catch (DataIntegrityViolationException error) {
+            // NOTE: to be fair. this logic in my opinion should be handled by the repository, the Service shouldn't know what a sql exception is
+            // or is underlying structure. but for now this is good enough.
+            String message = error.getMostSpecificCause().getMessage();
+            HttpStatus code = HttpStatus.INTERNAL_SERVER_ERROR;
+            if (error.getCause() instanceof ConstraintViolationException) {
+                code = HttpStatus.BAD_REQUEST;
+            }
+
+            throw new ServiceException(
+                    code,
+                    String.format("[%s] error while creating task %s, reason: %s", error.getClass().getSimpleName(), task.getName(), message)
+            );
+        }
+
     }
 
     public Task getById(Long id) {

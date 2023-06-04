@@ -1,10 +1,12 @@
 package com.koubae.todolist.controllers;
 
 import com.koubae.todolist.entity.Task;
+import com.koubae.todolist.services.ServiceException;
 import com.koubae.todolist.services.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -49,8 +51,12 @@ public class TaskController {
     @PostMapping("")
     public ResponseEntity<Task> createTask(
             @RequestBody Task task
-    ) {
-        return new ResponseEntity<>(taskService.create(task), HttpStatus.CREATED);
+    ) throws ResponseStatusException {
+        try {
+            return new ResponseEntity<>(taskService.create(task), HttpStatus.CREATED);
+        } catch (ServiceException error) {
+           throw new ResponseStatusException(error.getCode(), error.toString());
+        }
     }
 
     @PutMapping("/{id}")
