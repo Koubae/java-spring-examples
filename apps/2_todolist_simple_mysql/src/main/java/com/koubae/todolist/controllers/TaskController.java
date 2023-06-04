@@ -2,11 +2,11 @@ package com.koubae.todolist.controllers;
 
 import com.koubae.todolist.entity.Task;
 import com.koubae.todolist.services.TaskService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
@@ -33,14 +33,14 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Task>> getById(
+    public ResponseEntity<Task> getById(
             @PathVariable Long id
     ) {
         return ResponseEntity.ok(taskService.getById(id));
     }
 
     @GetMapping("/{name}/")
-    public ResponseEntity<Optional<Task>> getByName(
+    public ResponseEntity<Task> getByName(
             @PathVariable String name
     ) {
         return ResponseEntity.ok(taskService.getByName(name));
@@ -50,16 +50,15 @@ public class TaskController {
     public ResponseEntity<Task> createTask(
             @RequestBody Task task
     ) {
-        return ResponseEntity.ok(taskService.create(task));
+        return new ResponseEntity<>(taskService.create(task), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Task> updateTask(
             @PathVariable Long id,
-            @RequestBody Task task
+            @RequestBody Task taskNew
     ) {
-        task.setId(id);
-        return ResponseEntity.ok(taskService.update(task));
+        return ResponseEntity.ok(taskService.update(id, taskNew));
     }
 
     @PutMapping("/{id}/complete")
@@ -88,8 +87,9 @@ public class TaskController {
     public ResponseEntity<Boolean> deleteTask(
             @PathVariable Long id
     ) {
-        taskService.delete(id);
-        return ResponseEntity.ok(true);
+        boolean deleted = taskService.delete(id);
+        HttpStatus status = deleted ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        return new ResponseEntity<>(deleted, status);
     }
 
 }

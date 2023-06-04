@@ -3,9 +3,12 @@ package com.koubae.todolist.services;
 import com.koubae.todolist.entity.Task;
 import com.koubae.todolist.repository.TaskRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 
 @Service
@@ -20,40 +23,21 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-    public Task update(Task task) {
-        return taskRepository.save(task);
-    }
-
-    public boolean setComplete(Long id) {
-        Optional<Task> tasks = this.getById(id);
+    public Task getById(Long id) {
+        Optional<Task> tasks = taskRepository.findById(id);
         if (tasks.isEmpty()) {
-            return false;
+            throw new ResponseStatusException(NOT_FOUND, String.format("Task with id %d not found", id));
         }
-        Task task = tasks.get();
-        task.setCompleted(true);
-        taskRepository.save(task);
-        return true;
+        return tasks.get();
     }
 
-    public boolean setTodo(Long id) {
-        Optional<Task> tasks = this.getById(id);
+    public Task getByName(String name) {
+        Optional<Task> tasks = taskRepository.findByName(name);
         if (tasks.isEmpty()) {
-            return false;
+            throw new ResponseStatusException(NOT_FOUND, String.format("Task with name %s not found", name));
         }
-        Task task = tasks.get();
-        task.setCompleted(false);
-        taskRepository.save(task);
-        return true;
+        return tasks.get();
     }
-
-    public Optional<Task> getById(Long id) {
-        return taskRepository.findById(id);
-    }
-
-    public Optional<Task> getByName(String name) {
-        return taskRepository.findByName(name);
-    }
-
 
     public List<Task> list() {
         return (List<Task>) taskRepository.findAll();
@@ -67,8 +51,31 @@ public class TaskService {
         return taskRepository.findAllByCompletedFalse();
     }
 
-    public void delete(Long id) {
+    public Task update(Long id, Task taskNew) {
+        Task taskOld = this.getById(id);
+        taskNew.setId(id);
+        taskNew.setCreated(taskOld.getCreated());
+        return taskRepository.save(taskNew);
+    }
+
+    public boolean setComplete(Long id) {
+        Task task = this.getById(id);
+        task.setCompleted(true);
+        taskRepository.save(task);
+        return true;
+    }
+
+    public boolean setTodo(Long id) {
+        Task task = this.getById(id);
+        task.setCompleted(false);
+        taskRepository.save(task);
+        return true;
+    }
+
+    public boolean delete(Long id) {
+        this.getById(id);
         taskRepository.deleteById(id);
+        return true;
     }
 
 }
