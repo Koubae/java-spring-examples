@@ -6,6 +6,7 @@ TODOS
     * Java
     * Kotlin
     * Groovy
+    * Scala
 
 .env 
 ```yaml
