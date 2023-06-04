@@ -31,6 +31,17 @@ Documentation
     * [Setter-based dependency injection](https://docs.spring.io/spring-framework/docs/4.2.x/spring-framework-reference/html/beans.html#beans-setter-injection) 
 
 
+Frameworks & Libraries
+--------
+
+
+### Testing
+
+#### Integration Tests
+
+* [Rest Assured](https://rest-assured.io/)
+
+
 
 Further Readins
 ---------------
