@@ -17,25 +17,33 @@ public class ControllerError implements ErrorController {
     public ResponseError handleError(HttpServletRequest request) {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
         String url = (String) request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI);
-        String errorMessage = (String) request.getAttribute(RequestDispatcher.ERROR_MESSAGE);
+        String description = (String) request.getAttribute(RequestDispatcher.ERROR_MESSAGE);
+        Exception exception = (Exception) request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);
 
         int statusCode = -1;
-        String errorMessageBody = "Something Went Wrong";
+        String error = "Something Went Wrong";
         if (status != null) {
             statusCode = Integer.parseInt(status.toString());
             if(statusCode == HttpStatus.NOT_FOUND.value()) {
-                errorMessageBody = "Error 404 - Not Found";
+                error = "Error 404 - Not Found";
             }
             else if(statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-                errorMessageBody = "Error 500 - Internal Server Error";
+                error = "Error 500 - Internal Server Error";
+            }
+        }
+        if (exception != null) {
+            if (description.isEmpty()) {
+                description = String.format("Error %s", exception);
+            } else {
+                description += String.format(", error %s", exception);
             }
         }
 
         return new ResponseError(
                 statusCode,
                 url,
-                errorMessageBody,
-                errorMessage
+                error,
+                description
         );
 
     }
