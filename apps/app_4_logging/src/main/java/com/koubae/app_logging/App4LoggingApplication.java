@@ -11,10 +11,11 @@ public class App4LoggingApplication {
     private static final Logger logger = LoggerFactory.getLogger(App4LoggingApplication.class);
 
     public static void main(String[] args) {
+        SpringApplication.run(App4LoggingApplication.class, args);
+
         logger.info("Started App");
         logger.warn("Started App");
         logger.error("Stated App");
-        SpringApplication.run(App4LoggingApplication.class, args);
     }
 
 }
